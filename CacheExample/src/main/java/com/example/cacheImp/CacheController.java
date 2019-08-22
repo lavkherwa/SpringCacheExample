@@ -14,8 +14,13 @@ public class CacheController {
 	TargetResource resourcePool;
 
 	@GetMapping(value = "/{id}")
-	public String getMessage(@PathVariable("id") Long id) {		
+	public String getMessage(@PathVariable("id") Long id) {
 		return resourcePool.getResource(id);
+	}
+
+	@GetMapping
+	public String getMessage2() {
+		return resourcePool.getResource2();
 	}
 
 }
