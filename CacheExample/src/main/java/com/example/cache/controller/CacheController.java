@@ -1,9 +1,11 @@
-package com.example.cacheImp;
+package com.example.cache.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cache.service.TargetResource;
 
 @RestController
 @RequestMapping("/resource")
@@ -24,6 +26,11 @@ public class CacheController {
 	@GetMapping(value = "/{id}")
 	public String getMessage(@PathVariable("id") Long id) {
 		return resourcePool.getResource(id);
+	}
+	
+	@GetMapping(value = "/user")
+	public String getMessage() {
+		return resourcePool.getResource3();
 	}
 
 	@GetMapping
