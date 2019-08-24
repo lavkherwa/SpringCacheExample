@@ -17,11 +17,8 @@ public class CustomCaffeineCache extends CaffeineCache {
 			boolean allowNullValues) {
 
 		super(name, cache, allowNullValues);
-
 		Objects.requireNonNull(userInfoProvider);
-
 		Objects.requireNonNull(cache);
-
 		this.userInformation = userInfoProvider;
 
 	}
@@ -29,11 +26,8 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public CustomCaffeineCache(String name, ILoggedOnUser userInfoProvider, Cache<Object, Object> cache) {
 
 		super(name, cache);
-
 		Objects.requireNonNull(userInfoProvider);
-
 		Objects.requireNonNull(cache);
-
 		this.userInformation = userInfoProvider;
 
 	}
@@ -43,7 +37,6 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public ValueWrapper get(final Object key) {
 
 		final Object decoratedKey = decorateObjectKey(key);
-
 		return super.get(decoratedKey);
 
 	}
@@ -53,7 +46,6 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public <T> T get(final Object key, final Callable<T> valueLoader) {
 
 		final Object decoratedKey = decorateObjectKey(key);
-
 		return super.get(decoratedKey, valueLoader);
 
 	}
@@ -73,9 +65,7 @@ public class CustomCaffeineCache extends CaffeineCache {
 	protected Object lookup(final Object key) {
 
 		// This would lead to double-decoration
-
 		// final Object decoratedKey = decorateObjectKey(key);
-
 		return super.lookup(key);
 
 	}
@@ -85,7 +75,6 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public void put(final Object key, final Object value) {
 
 		final Object decoratedKey = decorateObjectKey(key);
-
 		super.put(decoratedKey, value);
 
 	}
@@ -95,7 +84,6 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public ValueWrapper putIfAbsent(final Object key, final Object value) {
 
 		final Object decoratedKey = decorateObjectKey(key);
-
 		return super.putIfAbsent(decoratedKey, value);
 
 	}
@@ -105,7 +93,6 @@ public class CustomCaffeineCache extends CaffeineCache {
 	public void evict(final Object key) {
 
 		final Object decoratedKey = decorateObjectKey(key);
-
 		super.evict(decoratedKey);
 
 	}
@@ -113,13 +100,10 @@ public class CustomCaffeineCache extends CaffeineCache {
 	protected Object decorateObjectKey(final Object key) {
 
 		/*- Key should comprise of additional user parameters
-		
 		*  user -> Id and Email
-		
 		* */
 
 		final String decoratedKey = userInformation.getId() + userInformation.getEmail() + String.valueOf(key);
-
 		return decoratedKey;
 
 	}
