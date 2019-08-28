@@ -35,16 +35,14 @@ public class CacheConfig {
 				.expireAfterAccess(10, TimeUnit.SECONDS)//
 				.recordStats()//
 				.softValues()//
-				.build(), //
-				true);
+				.build());
 
 		final Cache cacheUserSpecific;
 		cacheUserSpecific = new CustomCaffeineCache("user-specific-cache", loggedOnUser, Caffeine.newBuilder()//
 				.expireAfterAccess(10, TimeUnit.SECONDS)//
 				.recordStats()//
 				.softValues()//
-				.build(), //
-				true);
+				.build());
 
 		final Collection<? extends Cache> caches = Arrays.asList(cacheResources, cacheUserSpecific);
 		simpleCacheManager.setCaches(caches);

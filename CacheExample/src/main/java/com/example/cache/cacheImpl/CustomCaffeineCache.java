@@ -99,7 +99,7 @@ public class CustomCaffeineCache extends CaffeineCache {
 
 	protected Object decorateObjectKey(final Object key) {
 
-		/*- Key should comprise of additional user parameters
+		/*- Key should comprise of additational user parameters
 		*  user -> Id and Email
 		* */
 

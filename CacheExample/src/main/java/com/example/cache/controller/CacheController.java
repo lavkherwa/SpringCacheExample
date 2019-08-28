@@ -1,5 +1,8 @@
 package com.example.cache.controller;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +53,11 @@ public class CacheController {
 			final Object objCache = userCache.getNativeCache();
 			if (objCache instanceof com.github.benmanes.caffeine.cache.Cache) {
 
+				/*- how to get the keys
+				ConcurrentMap<Object, Object> map = ((com.github.benmanes.caffeine.cache.Cache<Object, Object>) objCache).asMap();
+				Set<Object> keys = map.keySet();
+				System.out.println(keys.toString());
+				*/
 				@SuppressWarnings("rawtypes")
 				final com.github.benmanes.caffeine.cache.Cache nativeCache = (com.github.benmanes.caffeine.cache.Cache) objCache;
 				
