@@ -1,2 +1,2 @@
 # SpringCacheExamples
-This is a samll spring boot project depicting bith spring cache and caffeine cache 
+This is a small spring boot project depicting both spring cache and caffeine cache 
