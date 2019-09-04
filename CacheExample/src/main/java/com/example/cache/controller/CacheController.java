@@ -1,15 +1,13 @@
 package com.example.cache.controller;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
-
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cache.cacheUtils.CacheUtils;
+import com.example.cache.cacheUtils.ICacheStats;
 import com.example.cache.service.TargetResource;
 
 @RestController
@@ -47,28 +45,20 @@ public class CacheController {
 
 	@GetMapping(value = "/stats")
 	public String getStats() {
-		String message = "";
-		Cache userCache = (Cache) cacheManager.getCache("user-specific-cache");
-		if (null != userCache) {
-			final Object objCache = userCache.getNativeCache();
-			if (objCache instanceof com.github.benmanes.caffeine.cache.Cache) {
-
-				/*- how to get the keys
-				ConcurrentMap<Object, Object> map = ((com.github.benmanes.caffeine.cache.Cache<Object, Object>) objCache).asMap();
-				Set<Object> keys = map.keySet();
-				System.out.println(keys.toString());
-				*/
-				@SuppressWarnings("rawtypes")
-				final com.github.benmanes.caffeine.cache.Cache nativeCache = (com.github.benmanes.caffeine.cache.Cache) objCache;
-				
-
-				message = "Cache is hit: " + nativeCache.stats().hitCount() + " times, \n" + //
-						"Cache is evicted: " + nativeCache.stats().evictionCount() + " times, \n" + //
-						"Cache is missed: " + nativeCache.stats().missCount() + " times.";
+		final StringBuilder sb = new StringBuilder("Cache statistics");
+		if (cacheManager != null) {
+			for (final String cacheName : cacheManager.getCacheNames()) {
+				final ICacheStats stats = CacheUtils.getCacheStats(cacheManager, cacheName);
+				if (null != stats) {
+					final String s = String.format(
+							"\n %s: %s current elements, %d lookups, %d hits, %d misses, %d refreshes, %d errors", //
+							stats.getCacheName(), stats.getCurrentSize(), stats.getLookups(), stats.getHits(),
+							stats.getMisses(), stats.getRefreshes(), stats.getErrors());
+					sb.append(s);
+				}
 			}
 		}
-
-		return message;
+		return sb.toString();
 	}
 
 }
